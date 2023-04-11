@@ -26,7 +26,27 @@ public class King extends ChessPiece {
             }
         }
 
-        // Still needs castling logic.
+        // Castling
+        if (!hasMoved) {
+            int backRank = (color == PieceColor.WHITE) ? 0 : 7;
+            // Check kingside castling
+            if (board.getPieceAt(new Position(backRank, 7)) instanceof Rook
+                    && !((Rook) board.getPieceAt(new Position(backRank, 7))).hasMoved()) {
+                if (board.getPieceAt(new Position(backRank, 5)) == null
+                        && board.getPieceAt(new Position(backRank, 6)) == null) {
+                    moves.add(new Position(backRank, 6));
+                }
+            }
+            // Check queenside castling
+            if (board.getPieceAt(new Position(backRank, 0)) instanceof Rook
+                    && !((Rook) board.getPieceAt(new Position(backRank, 0))).hasMoved()) {
+                if (board.getPieceAt(new Position(backRank, 1)) == null
+                        && board.getPieceAt(new Position(backRank, 2)) == null
+                        && board.getPieceAt(new Position(backRank, 3)) == null) {
+                    moves.add(new Position(backRank, 2));
+                }
+            }
+        }
 
         return moves;
     }

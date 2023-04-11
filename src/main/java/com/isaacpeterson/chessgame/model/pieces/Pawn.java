@@ -2,6 +2,7 @@ package main.java.com.isaacpeterson.chessgame.model.pieces;
 
 import main.java.com.isaacpeterson.chessgame.model.Board;
 import main.java.com.isaacpeterson.chessgame.model.ChessPiece;
+import main.java.com.isaacpeterson.chessgame.model.Move;
 import main.java.com.isaacpeterson.chessgame.model.Position;
 
 import java.util.ArrayList;
@@ -36,12 +37,18 @@ public class Pawn extends ChessPiece {
                 ChessPiece targetPiece = board.getPieceAt(captureMove);
                 if (targetPiece != null && targetPiece.getColor() != color) {
                     moves.add(new Position(captureMove.getRow(), captureMove.getColumn()));
+                } else {
+                    // En passant capture
+                    Move lastMove = board.getLastMove();
+                    if (lastMove != null && Math.abs(lastMove.getStart().getRow() - lastMove.getEnd().getRow()) == 2
+                            && lastMove.getEnd().getColumn() == captureMove.getColumn()) {
+                        ChessPiece enPassantTarget = board.getPieceAt(lastMove.getEnd());
+                        if (enPassantTarget instanceof Pawn && enPassantTarget.getColor() != color) {
+                            moves.add(new Position(captureMove.getRow(), captureMove.getColumn()));
+                        }
+                    }
                 }
             }
         }
-
-        // still needs en passant logic.
-
-        return moves;
     }
 }

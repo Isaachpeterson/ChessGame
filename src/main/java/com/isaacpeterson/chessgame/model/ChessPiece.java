@@ -5,6 +5,7 @@ import java.util.List;
 public abstract class ChessPiece {
     protected Position position;
     protected PieceColor color;
+    protected boolean hasMoved;
 
     public ChessPiece(Position position, PieceColor color) {
         this.position = position;
@@ -19,6 +20,14 @@ public abstract class ChessPiece {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public boolean hasMoved() {
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
     }
 
     public PieceColor getColor() {
