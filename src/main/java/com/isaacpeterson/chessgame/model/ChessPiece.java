@@ -1,5 +1,6 @@
 package main.java.com.isaacpeterson.chessgame.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ChessPiece {
@@ -37,5 +38,20 @@ public abstract class ChessPiece {
     public enum PieceColor {
         WHITE,
         BLACK
+    }
+
+    public List<Position> getLegalMoves(Board board) {
+        List<Position> legalMoves = new ArrayList<>();
+        List<Position> possibleMoves = getPossibleMoves(board);
+
+        for (Position move : possibleMoves) {
+            Board testBoard = board.clone();
+            testBoard.movePiece(this.position, move);
+            if (!testBoard.isInCheck(this.color)) {
+                legalMoves.add(move);
+            }
+        }
+
+        return legalMoves;
     }
 }
